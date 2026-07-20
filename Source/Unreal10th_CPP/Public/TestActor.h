@@ -83,7 +83,7 @@ protected:
 	UPROPERTY(BlueprintReadWrite,EditAnywhere, Category = "TestActor변수|ReadWrite")	// 블루프린트 이벤트 그래프에서 읽고 쓸 수 있다. 그리고 디테일 창에서 편집도 가능.
 	int32 Data4_4 = 44;
 
-	UPROPERTY(BlueprintReadOnly)
+	UPROPERTY(VisibleDefaultsOnly,BlueprintReadOnly)
 	TObjectPtr<UStaticMeshComponent> MainMesh = nullptr;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
