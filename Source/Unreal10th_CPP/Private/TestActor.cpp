@@ -30,6 +30,11 @@ void ATestActor::BeginPlay()
 
 	Test_NormalFunction();
 	Test_UFunction();
+
+	Test_ImplementableFunction();
+	Test_NativeEventFunction();
+
+	//FMath
 }
 
 // Called every frame
