@@ -35,7 +35,9 @@ protected:
 protected:
 	int32 Data1 = 10;	// C++ 전용 변수.
 
-	UPROPERTY(VisibleAnywhere)	// 클래스 디폴트 창과, 맵에 배치된 액터의 디테일 창에서 확인 가능
+	// UPROPERTY : 클래스나 구조체의 멤버 변수를 언리얼 엔진에 등록하는 것(리플렉션 지원, 가비지 콜렉팅 지원)
+
+	UPROPERTY(VisibleAnywhere)		// 클래스 디폴트 창과, 맵에 배치된 액터의 디테일 창에서 확인 가능
 		int32 Data2_1 = 21;
 
 	UPROPERTY(VisibleDefaultsOnly)	// 클래스 디폴트 창에서만 보임
@@ -43,4 +45,13 @@ protected:
 
 	UPROPERTY(VisibleInstanceOnly)	// 맵에 배치된 액터의 디테일 창에서만 보임
 		int32 Data2_3 = 23;
+
+	UPROPERTY(EditAnywhere)			// 클래스 디폴트 창과, 맵에 배치된 액터의 디테일 창에서 수정 가능
+		int32 Data3_1 = 31;
+
+	UPROPERTY(EditDefaultsOnly)		// 클래스 디폴트 창에서만 수정 가능
+		int32 Data3_2 = 32;
+
+	UPROPERTY(EditInstanceOnly)		//맵에 배치된 액터의 디테일 창에서만 수정 가능
+		int32 Data3_3 = 33;
 };
