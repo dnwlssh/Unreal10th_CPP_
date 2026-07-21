@@ -59,4 +59,5 @@ protected:
 
     UPROPERTY(EditAnywhere, Category = "Move")
     float RunSpeed = 1200.f;
+
 };

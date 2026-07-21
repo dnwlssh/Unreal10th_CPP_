@@ -18,21 +18,23 @@ AActionCharactor::AActionCharactor()
     GetCharacterMovement()->bOrientRotationToMovement = true;
     CameraSpringArmComponent->bUsePawnControlRotation = true;
 
-    GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
 void AActionCharactor::BeginPlay()
 {
     Super::BeginPlay();
+
+    GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
 }
 
 void AActionCharactor::Tick(float DeltaTime)
 {
     Super::Tick(DeltaTime);
 
-    float Speed = GetVelocity().Size2D();
+    float CurrentSpeed = GetCharacterMovement()->MaxWalkSpeed;
 
-    UE_LOG(LogTemp, Warning, TEXT("Current Speed : %.2f"), Speed);
+    UE_LOG(LogTemp, Warning, TEXT("Current Speed : %.2f"), CurrentSpeed);
+
 }
 
 void AActionCharactor::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -91,9 +93,11 @@ void AActionCharactor::OnMove(const FInputActionValue& Value)
 void AActionCharactor::RunStart(const FInputActionValue& Value)
 {
     GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+  
 }
 
 void AActionCharactor::RunEnd(const FInputActionValue& Value)
 {
     GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+   
 }
