@@ -33,7 +33,7 @@ void AActionCharactor::Tick(float DeltaTime)
 
     float CurrentSpeed = GetCharacterMovement()->MaxWalkSpeed;
 
-    UE_LOG(LogTemp, Warning, TEXT("Current Speed : %.2f"), CurrentSpeed);
+    //UE_LOG(LogTemp, Warning, TEXT("Current Speed : %.2f"), CurrentSpeed);
 
 }
 
