@@ -24,7 +24,14 @@ void AActionCharactor::BeginPlay()
 {
     Super::BeginPlay();
 
-    GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+    if (GetCharacterMovement())
+    {
+        GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+    }
+    if (GetMesh())
+    {
+        AnimInstance = GetMesh()->GetAnimInstance();
+    }
 }
 
 void AActionCharactor::Tick(float DeltaTime)
@@ -67,6 +74,11 @@ void AActionCharactor::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
             ETriggerEvent::Completed,
             this,
             &AActionCharactor::RunEnd);
+
+        EnhancedInputComponent->BindAction(
+            IA_Roll, 
+            ETriggerEvent::Started, 
+            this, &AActionCharactor::OnRoll);
     }
 }
 
@@ -100,4 +112,26 @@ void AActionCharactor::RunEnd(const FInputActionValue& Value)
 {
     GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
    
+}
+
+void AActionCharactor::OnRoll(const FInputActionValue& Value)
+{
+    //UE_LOG(LogTemp, Log, TEXT("OnRoll"));
+
+    if (!RollMontage.IsValid()) return;
+
+    if (!AnimInstance)
+    {
+        AnimInstance = GetMesh()->GetAnimInstance();
+    }
+
+    if (AnimInstance && !AnimInstance->IsAnyMontagePlaying())
+    {
+        if (!GetLastMovementInputVector().IsNearlyZero())	// 이동 입력 중이면
+        {
+            SetActorRotation(GetLastMovementInputVector().Rotation());	// 입력방향으로 즉시 회전해서 구르기
+        }
+
+        PlayAnimMontage(RollMontage.Get());
+    }
 }

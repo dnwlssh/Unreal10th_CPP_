@@ -33,6 +33,8 @@ protected:
 
     void RunEnd(const FInputActionValue& Value);
 
+    void OnRoll(const FInputActionValue& Value);
+
 protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
@@ -43,6 +45,12 @@ protected:
 
     UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
     TObjectPtr<UInputAction> IA_Run;
+
+    UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+    TObjectPtr<UInputAction> IA_Roll;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly)
+    TWeakObjectPtr<UAnimMontage> RollMontage;
 
 protected:
 
@@ -59,5 +67,11 @@ protected:
 
     UPROPERTY(EditAnywhere, Category = "Move")
     float RunSpeed = 1200.f;
+
+private:
+    UPROPERTY()
+    TObjectPtr<UAnimInstance> AnimInstance = nullptr;
+
+    bool bSprintMode = false;
 
 };
