@@ -22,10 +22,49 @@ public:
 	virtual void RecoveryStamina_Implementation(float InAmount) override;
 
 protected:
-	// Called when the game starts or when spawned
+
 	virtual void BeginPlay() override;
-		UPROPERTY(EditAnywhere, BlueprintReadWrite)
-	float WalkSpeed = 600;
+	virtual void Tick(float DeltaTime) override;
+	virtual void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
+
+
+protected:
+
+	void OnTestAction(const FInputActionValue& Value);
+
+	void OnMove(const FInputActionValue& Value);
+
+	void RunStart(const FInputActionValue& Value);
+
+	void RunEnd(const FInputActionValue& Value);
+
+	void OnRoll(const FInputActionValue& Value);
+
+protected:
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UInputAction> IA_Test;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UInputAction> IA_Move;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UInputAction> IA_Run;
+
+	UPROPERTY(EditDefaultsOnly, BlueprintReadOnly)
+	TObjectPtr<UInputAction> IA_Roll;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly)
+	TWeakObjectPtr<UAnimMontage> RollMontage;
+
+
+protected:
+	// Called when the game starts or when spawned
+	UPROPERTY(EditAnywhere, Category = "Move")
+	float WalkSpeed = 600.f;
+
+	UPROPERTY(EditAnywhere, Category = "Move")
+	float RunSpeed = 1200.f;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	float CurrentStamina = 100.0f;

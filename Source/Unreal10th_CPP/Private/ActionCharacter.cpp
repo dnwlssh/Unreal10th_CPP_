@@ -1,3 +1,6 @@
+// Fill out your copyright notice in the Description page of Project Settings.
+
+
 #include "ActionCharacter.h"
 #include "EnhancedInputComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -58,4 +61,103 @@ void AActionCharacter::BeginPlay()
 	//IStaminaInterface::Execute_GetCurrentStamina(this);	// 실행했을 때 블루프린트 구현으로 호출한다.
 }
 
-// Called every frame
+void AActionCharacter::Tick(float DeltaTime)
+{
+    Super::Tick(DeltaTime);
+
+    float CurrentSpeed = GetCharacterMovement()->MaxWalkSpeed;
+
+    //UE_LOG(LogTemp, Warning, TEXT("Current Speed : %.2f"), CurrentSpeed);
+
+}
+
+void AActionCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
+{
+    Super::SetupPlayerInputComponent(PlayerInputComponent);
+
+    if (UEnhancedInputComponent* EnhancedInputComponent =
+        Cast<UEnhancedInputComponent>(PlayerInputComponent))
+    {
+        EnhancedInputComponent->BindAction(
+            IA_Test,
+            ETriggerEvent::Started,
+            this,
+            &AActionCharacter::OnTestAction);
+
+        EnhancedInputComponent->BindAction(
+            IA_Move,
+            ETriggerEvent::Triggered,
+            this,
+            &AActionCharacter::OnMove);
+
+        EnhancedInputComponent->BindAction(
+            IA_Run,
+            ETriggerEvent::Started,
+            this,
+            &AActionCharacter::RunStart);
+
+        EnhancedInputComponent->BindAction(
+            IA_Run,
+            ETriggerEvent::Completed,
+            this,
+            &AActionCharacter::RunEnd);
+
+        EnhancedInputComponent->BindAction(
+            IA_Roll,
+            ETriggerEvent::Started,
+            this, &AActionCharacter::OnRoll);
+    }
+}
+
+void AActionCharacter::OnTestAction(const FInputActionValue& Value)
+{
+    UE_LOG(LogTemp, Log, TEXT("TestAction 실행"));
+}
+
+void AActionCharacter::OnMove(const FInputActionValue& Value)
+{
+    FVector2D MoveInput = Value.Get<FVector2D>();
+
+    FRotator ControlRotation = GetControlRotation();
+    ControlRotation.Pitch = 0.f;
+    ControlRotation.Roll = 0.f;
+
+    FVector Forward = FRotationMatrix(ControlRotation).GetUnitAxis(EAxis::X);
+    FVector Right = FRotationMatrix(ControlRotation).GetUnitAxis(EAxis::Y);
+
+    AddMovementInput(Forward, MoveInput.Y);
+    AddMovementInput(Right, MoveInput.X);
+}
+
+void AActionCharacter::RunStart(const FInputActionValue& Value)
+{
+    GetCharacterMovement()->MaxWalkSpeed = RunSpeed;
+
+}
+
+void AActionCharacter::RunEnd(const FInputActionValue& Value)
+{
+    GetCharacterMovement()->MaxWalkSpeed = WalkSpeed;
+}
+
+void AActionCharacter::OnRoll(const FInputActionValue& Value)
+{
+    //UE_LOG(LogTemp, Log, TEXT("OnRoll"));
+
+    if (!RollMontage.IsValid()) return;
+
+    if (!AnimInstance)
+    {
+        AnimInstance = GetMesh()->GetAnimInstance();
+    }
+
+    if (AnimInstance && !AnimInstance->IsAnyMontagePlaying())
+    {
+        if (!GetLastMovementInputVector().IsNearlyZero())	// 이동 입력 중이면
+        {
+            SetActorRotation(GetLastMovementInputVector().Rotation());	// 입력방향으로 즉시 회전해서 구르기
+        }
+
+        PlayAnimMontage(RollMontage.Get());
+    }
+}
