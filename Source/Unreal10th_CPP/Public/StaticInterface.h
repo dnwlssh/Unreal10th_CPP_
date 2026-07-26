@@ -4,22 +4,26 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
+//#include "StatComponent.h"
 #include "StaticInterface.generated.h"
+
+class UStatComponent;
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
-class UStaticInterface : public UInterface
+class UStatInterface : public UInterface
 {
 	GENERATED_BODY()
 };
 
 /**
- * 
+ *
  */
-class UNREAL10TH_CPP_API IStaticInterface
+class UNREAL10TH_CPP_API IStatInterface
 {
 	GENERATED_BODY()
 
 	// Add interface functions to this class. This is the class that will be inherited to implement this interface.
 public:
+	virtual UStatComponent* GetStatComponent() const = 0;
 };
