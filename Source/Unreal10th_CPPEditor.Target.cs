@@ -8,7 +8,7 @@ public class Unreal10th_CPPEditorTarget : TargetRules
 	public Unreal10th_CPPEditorTarget(TargetInfo Target) : base(Target)
 	{
 		Type = TargetType.Editor;
-		DefaultBuildSettings = BuildSettingsVersion.V7;
+		DefaultBuildSettings = BuildSettingsVersion.V6;
 
 		ExtraModuleNames.AddRange( new string[] { "Unreal10th_CPP" } );
 	}

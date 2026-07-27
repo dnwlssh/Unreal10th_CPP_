@@ -4,11 +4,11 @@
 
 #include "CoreMinimal.h"
 #include "UObject/Interface.h"
-#include "StaticInterface.generated.h"
+#include "StatminalInterface.generated.h"
 
 // This class does not need to be modified.
 UINTERFACE(MinimalAPI)
-class UStaticInterface : public UInterface
+class UStatminalInterface : public UInterface
 {
 	GENERATED_BODY()
 };
@@ -16,7 +16,7 @@ class UStaticInterface : public UInterface
 /**
  * 
  */
-class UNREAL10TH_CPP_API IStaticInterface
+class UNREAL10TH_CPP_API IStatminalInterface
 {
 	GENERATED_BODY()
 
